@@ -1,4 +1,4 @@
-module gin_test_server
+module github.com/kirillmc/gin_test_server
 
 go 1.21
 

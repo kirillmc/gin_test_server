@@ -21,8 +21,8 @@ func main() {
 	//r.PUT("/programs/:n", updateProgramById)
 	//r.DELETE("/programs/:n", deleteProgramByID)
 
-	log.Println("Server is running on: localhost:80808...")
-	if err := r.Run(":8080"); err != nil {
+	log.Println("Server is running on: localhost:8081...")
+	if err := r.Run(":8081"); err != nil {
 		log.Fatal(err)
 	}
 }

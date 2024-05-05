@@ -6,14 +6,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"sync"
 	"time"
 
-	"gin_test_server/internal/model"
+	"github.com/kirillmc/gin_test_server/internal/model"
 )
 
 const (
-	baseUrl    = "http://localhost:8080"
+	baseUrl    = "http://localhost:8081"
 	newBaseUrl = "https://ca32-93-100-98-132.ngrok-free.app"
 	getPostfix = "/programs/%d"
 )
@@ -41,11 +40,6 @@ func getNProgramsClient(n int64) (model.TrainPrograms, error) {
 
 	return programs, nil
 }
-
-var wg sync.WaitGroup
-var list []time.Duration
-var errCount int
-
 func main() {
 	//var user UserToGet
 	//var err error
@@ -79,13 +73,20 @@ func main() {
 	//log.Printf("time for %d get requests: %v\n", n, end.Sub(start))
 	//log.Printf("avg time for %d get requests: %s\n", n, time.Duration(avg))
 	start := time.Now()
-	_, err := getNProgramsClient(55)
+	var n int64 = 1
+	programs, err := getNProgramsClient(n)
 	if err != nil {
 		log.Println("ERROR")
 	}
 
 	end := time.Now()
-	log.Printf("TOTAL TIME TO GET PROGRAMS\n: %v\n", end.Sub(start))
+	numOfSets, err := json.Marshal(programs)
+	if err != nil {
+		fmt.Errorf("fail to get json: %v", err)
+	}
+	log.Printf("|\t\t\tGIN INFO: SIZE[%d]\t\t\t|\n", n)
+	log.Printf("|\tTOTAL TIME TO GET PROGRAMS:\t%v\t\t|\n", end.Sub(start))
+	log.Printf("|\tSIZE OF PROGRAMS:\t\t%s\t|\n", getSizeInFormattedString(int64(len(numOfSets))))
 }
 
 //func testRequest(i int) {
@@ -122,3 +123,14 @@ func main() {
 //	log.Printf("%d get request;\t total time: %v;\tavg time: %s;\ttcount of errors: %d;\tpercentage of errors: %0.3f;\n",
 //		n, end.Sub(start), time.Duration(avg), errCount, float64(errCount)/float64(n))
 //}
+
+func getSizeInFormattedString(byteSize int64) string {
+	if byteSize < 1024 {
+		return fmt.Sprintf("%.3f байт\t", float64(byteSize))
+	}
+	if byteSize < 1024*1024 {
+		return fmt.Sprintf("%.3f килобайт\t", float64(byteSize)/1024)
+	} else {
+		return fmt.Sprintf("%.3f мегабайт\t", float64(byteSize)/(1024*1024))
+	}
+}
