@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/gin-gonic/gin v1.9.1
-	github.com/kirillmc/data_filler v0.0.0-20240504211724-4e6bde434c55
+	github.com/kirillmc/data_filler v0.0.0-20240508133548-f8d1861d81f5
 )
 
 require (

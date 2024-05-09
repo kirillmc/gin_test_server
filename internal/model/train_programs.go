@@ -1,5 +1,7 @@
 package model
 
+import "github.com/kirillmc/gin_test_server/internal"
+
 type TrainPrograms struct {
-	TrainPrograms []TrainProgram `json:"train_programs"`
+	TrainPrograms []internal.TrainProgram `json:"train_programs"`
 }
